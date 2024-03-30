@@ -1,0 +1,207 @@
+{
+	"folders": [
+		{
+			"name": "simbioz_repo",
+			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo"
+		},
+		{
+			"name": "client_addons",
+			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/client_addons"
+		},
+		{
+			"name": "docker",
+			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/docker"
+		},
+		{
+			"name": "varlib",
+			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/varlib"
+		},
+		{
+			"name": "conf",
+			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/conf"
+		},
+	],
+	"settings": {
+		"odooProjectName": "mt_docker",
+		"hostOdooRoot": "/workdrive/odoo_dev/odoo_simbioz_docker",
+		"[python]": {
+			"editor.formatOnSave": true,
+			"editor.formatOnType": false,
+			"editor.tabSize": 4,
+			"editor.codeActionsOnSave": {
+				"source.organizeImports": "explicit"
+			}
+		},
+		"python.languageServer": "Pylance",
+		"python.analysis.userFileIndexingLimit": -1,
+		// set your project's directories here
+		"python.analysis.extraPaths": [
+			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo",
+			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/odoo",
+			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/odoo/addons",
+			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/extra_addons/acc_addons",
+			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/extra_addons/core_addons",
+			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/extra_addons/demo_addons",
+			"/workdrive/odoo_dev/odoo_simbioz_docker/client_addons",
+		],
+		"black-formatter.args": [
+			"--line-length",
+			"88"
+		],
+		"flake8.args": [
+			"--config=/workdrive/odoo_dev/odoo_simbioz_docker/client_addons/.flake8"
+		],
+		"pylint.args": [
+			"--rcfile=/workdrive/odoo_dev/odoo_simbioz_docker/client_addons/.pylintrc",
+			"--load-plugins=pylint_odoo"
+		],
+		"pylint.ignorePatterns": [
+			"**/**/__manifest__.py"
+		],
+		// Comment this line, if you use prettier-xml plugin
+		// "prettier.configPath": "<full path to>/.prettierrc.yml",
+		"prettier.enableDebugLogs": true,
+		// ========== PRETTIER XML-PLUGIN SETTING =================
+		// uncomment this section if you can install @prettier/plugin-xml
+		"prettier.configPath": "/workdrive/odoo_dev/odoo_simbioz_docker/conf/.prettierrc.yml",
+		"prettier.prettierPath": "/usr/local/lib/node_modules/prettier",
+		"prettier.resolveGlobalModules": true,
+		"prettier.documentSelectors": [
+			"**/*.xml"
+		],
+		"esbonio.sphinx.confDir": "",
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "debug-prod-db",
+				"type": "docker-run",
+				"dependsOn": [
+					"build-image"
+				],
+				"dockerRun": {
+					"containerName": "odoo-${config:odooProjectName}",
+					"image": "odoo:${config:odooProjectName}",
+					"volumes": [
+						{
+							"containerPath": "/home/odoo",
+							"localPath": "/workdrive/odoo_dev/odoo_simbioz_docker"
+						},
+					],
+					"ports": [
+						{
+							"containerPort": 8069,
+							"hostPort": 8069
+						},
+						{
+							"containerPort": 5678,
+							"hostPort": 5678
+						},
+						{
+							"containerPort": 8072,
+							"hostPort": 8072
+						},
+					],
+					"customOptions": "--add-host='host.docker.internal:host-gateway'"
+				},
+				"python": {
+					"file": "/home/odoo/simbioz_repo/odoo-bin",
+					"args": [
+						"--config=/home/odoo/conf/odoo-server.conf",
+					],
+				},
+			},
+			{
+				"label": "update-prod-db",
+				"type": "docker-run",
+				"dependsOn": [
+					"build-image"
+				],
+				"dockerRun": {
+					"containerName": "odoo-${config:odooProjectName}",
+					"image": "odoo:${config:odooProjectName}",
+					"volumes": [
+						{
+							"containerPath": "/home/odoo",
+							"localPath": "/workdrive/odoo_dev/odoo_simbioz_docker"
+						},
+					],
+					"ports": [
+						{
+							"containerPort": 8069,
+							"hostPort": 8069
+						},
+						{
+							"containerPort": 5678,
+							"hostPort": 5678
+						},
+						{
+							"containerPort": 8072,
+							"hostPort": 8072
+						},
+					],
+					"customOptions": "--add-host='host.docker.internal:host-gateway'"
+				},
+				"python": {
+					"file": "/home/odoo/simbioz_repo/odoo-bin",
+					"args": [
+						"--config=/home/odoo/conf/odoo-server.conf",
+						"--update=base",
+						"--database=sim-mt-docker-prod",
+						"--stop-after-init",
+					],
+				},
+			},
+			{
+				"label": "build-image",
+				"type": "docker-build",
+				"dockerBuild": {
+					"dockerfile": "${config:hostOdooRoot}/docker/Dockerfile",
+					"context": "${config:hostOdooRoot}",
+					"tag": "odoo:${config:odooProjectName}"
+				}
+			},
+			{
+				"label": "clear-stopped-containers",
+				"type": "shell",
+				"command": "docker container prune -f"
+			},
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Debug PROD DB",
+				"type": "docker",
+				"request": "launch",
+				"preLaunchTask": "debug-prod-db",
+				"postDebugTask": "clear-stopped-containers",
+				"python": {
+					"pathMappings": [
+						{
+							"localRoot": "/workdrive/odoo_dev/odoo_simbioz_docker",
+							"remoteRoot": "/home/odoo"
+						}
+					],
+				},
+			},
+			{
+				"name": "Update PROD DB",
+				"type": "docker",
+				"request": "launch",
+				"preLaunchTask": "update-prod-db",
+				"postDebugTask": "clear-stopped-containers",
+				"python": {
+					"pathMappings": [
+						{
+							"localRoot": "/workdrive/odoo_dev/odoo_simbioz_docker",
+							"remoteRoot": "/home/odoo"
+						}
+					],
+				},
+			},
+		],
+	}
+}
