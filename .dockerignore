@@ -1,0 +1,13 @@
+# Игнорировать все файлы и каталоги
+**
+
+# Не игнорировать файлы requirements
+!simbioz_repo/requirements.txt
+!simbioz_repo/extra_requirements.txt
+# Если у нас несколько вложенных клиентских репозитариев, то в них могут также быть файлы с пакетами
+# Все эти файлы из подкаталогов нужно добавить в .dockerignore
+!client_addons/extra_requirements.txt
+!client_addons/requirements.txt
+
+# Не игнорировать каталог conf и его содержимое
+!conf/

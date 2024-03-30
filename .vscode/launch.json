@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Запуск отладки
+      "name": "Debug PROD DB",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "debug-prod-db",
+      "postDebugTask": "clear-stopped-containers",
+      "python": {
+        "pathMappings": [
+          {
+            // Не забыть поменять путь к папке проекта
+            "localRoot": "<main_project_folder>",
+            "remoteRoot": "/home/odoo"
+          }
+        ],
+      },
+    },
+    {
+      // Запуск обновления базы данных
+      "name": "Update PROD DB",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "update-prod-db",
+      "postDebugTask": "clear-stopped-containers",
+      "python": {
+        "pathMappings": [
+          {
+            // Не забыть поменять путь к папке проекта
+            "localRoot": "<main_project_folder>",
+            "remoteRoot": "/home/odoo"
+          }
+        ],
+      },
+    },
+  ],
+}
