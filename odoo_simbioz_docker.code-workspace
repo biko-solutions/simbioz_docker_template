@@ -1,29 +1,49 @@
+// ================================
+// Шаблон дл настройки рабочего пространства в VSCode
+// Структура каталога проекта:
+// main_project_folder
+// ├── simbioz_repo
+// 		├── каталоги репозитария сборки simbioz
+// ├── client_addons
+//    ├── каталоги дополнительных модулей
+// ├── docker
+//    ├── тут файл Dockerfile для формирования образа odoo
+// ├── varlib
+//    ├── каталог для filestore odoo и для хранения сессий. Очень важно проверить доступы к этому каталогу пользователю докера
+// └── conf
+//    ├── каталог с конфигурационными файлами odoo
+// projectname.code-workspace - файл настройки рабочего пространства
+// 
+// ================================
 {
 	"folders": [
 		{
 			"name": "simbioz_repo",
-			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo"
+			// тут указываем полный путь к папке с репозитарием сборки simbioz
+			"path": "<main_project_folder>/simbioz_repo"
 		},
 		{
 			"name": "client_addons",
-			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/client_addons"
+			"path": "<main_project_folder>/client_addons"
 		},
 		{
 			"name": "docker",
-			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/docker"
+			"path": "<main_project_folder>/docker"
 		},
 		{
 			"name": "varlib",
-			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/varlib"
+			"path": "<main_project_folder>/varlib"
 		},
 		{
 			"name": "conf",
-			"path": "/workdrive/odoo_dev/odoo_simbioz_docker/conf"
+			"path": "<main_project_folder>/conf"
 		},
 	],
 	"settings": {
+		// Тут указываем название проекта. Это имя будет использоваться для формирования образа докера
 		"odooProjectName": "mt_docker",
-		"hostOdooRoot": "/workdrive/odoo_dev/odoo_simbioz_docker",
+		// Не забываем тут поменять путь к папке проекта
+		"hostOdooRoot": "<main_project_folder>",
 		"[python]": {
 			"editor.formatOnSave": true,
 			"editor.formatOnType": false,
@@ -34,36 +54,49 @@
 		},
 		"python.languageServer": "Pylance",
 		"python.analysis.userFileIndexingLimit": -1,
-		// set your project's directories here
+		// Тут указываем все папки, где есть модули odoo
+		// указан пример. нужно заменить на свои каталоги и модули
 		"python.analysis.extraPaths": [
-			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo",
-			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/odoo",
-			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/odoo/addons",
-			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/extra_addons/acc_addons",
-			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/extra_addons/core_addons",
-			"/workdrive/odoo_dev/odoo_simbioz_docker/simbioz_repo/extra_addons/demo_addons",
-			"/workdrive/odoo_dev/odoo_simbioz_docker/client_addons",
+			"<main_project_folder>/simbioz_repo",
+			"<main_project_folder>/simbioz_repo/odoo",
+			"<main_project_folder>/simbioz_repo/odoo/addons",
+			"<main_project_folder>/simbioz_repo/extra_addons/acc_addons",
+			"<main_project_folder>/simbioz_repo/extra_addons/core_addons",
+			"<main_project_folder>/simbioz_repo/extra_addons/demo_addons",
+			"<main_project_folder>/client_addons",
 		],
 		"black-formatter.args": [
 			"--line-length",
 			"88"
 		],
+		// тут указываем путь к файлу конфигурации flake8
+		// для клиентских проектов у нас в каждом проекте есть свой файл конфигурации
+		// для разработки под сборку simbioz используется файл конфигурации flake8 в соответствующем сабмодуле
 		"flake8.args": [
-			"--config=/workdrive/odoo_dev/odoo_simbioz_docker/client_addons/.flake8"
+			"--config=<main_project_folder>/client_addons/.flake8"
 		],
+		// тут указываем путь к файлу конфигурации flake8
+		// для клиентских проектов у нас в каждом проекте есть свой файл конфигурации
+		// для разработки под сборку simbioz используется файл конфигурации flake8 в соответствующем сабмодуле
 		"pylint.args": [
-			"--rcfile=/workdrive/odoo_dev/odoo_simbioz_docker/client_addons/.pylintrc",
+			"--rcfile=<main_project_folder>/client_addons/.pylintrc",
 			"--load-plugins=pylint_odoo"
 		],
 		"pylint.ignorePatterns": [
 			"**/**/__manifest__.py"
 		],
-		// Comment this line, if you use prettier-xml plugin
-		// "prettier.configPath": "<full path to>/.prettierrc.yml",
 		"prettier.enableDebugLogs": true,
+		// Далее идут настройки prettier
+		// Его можно использовать встроенный в VSCode, но он не поддерживает нормальную работу с плагином prettier-xml
+		// Сам плагин устанавливается относительно просто, но требуется понимание работы npm и nodejs
+		// Вот тут описание как его установить https://bikosolutions.notion.site/prettier-xml-VSCode-2d81233d89cb48baa61ef1338a1406fa?pvs=4
+		// Вот эта настройка - без использования плагина prettier-xml
+		// "prettier.configPath": "<main_project_folder>/client_addons/.prettierrc.yml",
 		// ========== PRETTIER XML-PLUGIN SETTING =================
+		// Вот эти настройки для работы с плагином prettier-xml
+		// Настройки есть в файле .prettierrc.yml в папке conf
 		// uncomment this section if you can install @prettier/plugin-xml
-		"prettier.configPath": "/workdrive/odoo_dev/odoo_simbioz_docker/conf/.prettierrc.yml",
+		"prettier.configPath": "<main_project_folder>/conf/.prettierrc.yml",
 		"prettier.prettierPath": "/usr/local/lib/node_modules/prettier",
 		"prettier.resolveGlobalModules": true,
 		"prettier.documentSelectors": [
@@ -75,6 +108,7 @@
 		"version": "2.0.0",
 		"tasks": [
 			{
+				// Задача для запуска отладки
 				"label": "debug-prod-db",
 				"type": "docker-run",
 				"dependsOn": [
@@ -86,7 +120,8 @@
 					"volumes": [
 						{
 							"containerPath": "/home/odoo",
-							"localPath": "/workdrive/odoo_dev/odoo_simbioz_docker"
+							// Не забыть поменять путь к папке проекта
+							"localPath": "<main_project_folder>"
 						},
 					],
 					"ports": [
@@ -103,6 +138,9 @@
 							"hostPort": 8072
 						},
 					],
+					// Эта опция нужна для того, чтобы докер мог обращаться к хосту или к другим контейнерам
+					// Важно для работы с postgres, т.к. внутри контейнера нет postgres
+					// можно сделать отдельный контейнер для postgresql сервера или же использовать установку на хосте
 					"customOptions": "--add-host='host.docker.internal:host-gateway'"
 				},
 				"python": {
@@ -113,6 +151,7 @@
 				},
 			},
 			{
+				// Задача для обновления base-модуля базы данных
 				"label": "update-prod-db",
 				"type": "docker-run",
 				"dependsOn": [
@@ -124,7 +163,8 @@
 					"volumes": [
 						{
 							"containerPath": "/home/odoo",
-							"localPath": "/workdrive/odoo_dev/odoo_simbioz_docker"
+							// Не забыть поменять путь к папке проекта
+							"localPath": "<main_project_folder>"
 						},
 					],
 					"ports": [
@@ -148,12 +188,14 @@
 					"args": [
 						"--config=/home/odoo/conf/odoo-server.conf",
 						"--update=base",
-						"--database=sim-mt-docker-prod",
+						// указать название базы данных
+						"--database=<указать имя базы данных>",
 						"--stop-after-init",
 					],
 				},
 			},
 			{
+				// Задача для сборки образа
 				"label": "build-image",
 				"type": "docker-build",
 				"dockerBuild": {
@@ -163,6 +205,7 @@
 				}
 			},
 			{
+				// Задача для очистки остановленных контейнеров
 				"label": "clear-stopped-containers",
 				"type": "shell",
 				"command": "docker container prune -f"
@@ -173,6 +216,7 @@
 		"version": "0.2.0",
 		"configurations": [
 			{
+				// Запуск отладки
 				"name": "Debug PROD DB",
 				"type": "docker",
 				"request": "launch",
@@ -181,13 +225,15 @@
 				"python": {
 					"pathMappings": [
 						{
-							"localRoot": "/workdrive/odoo_dev/odoo_simbioz_docker",
+							// Не забыть поменять путь к папке проекта
+							"localRoot": "<main_project_folder>",
 							"remoteRoot": "/home/odoo"
 						}
 					],
 				},
 			},
 			{
+				// Запуск обновления базы данных
 				"name": "Update PROD DB",
 				"type": "docker",
 				"request": "launch",
@@ -196,7 +242,8 @@
 				"python": {
 					"pathMappings": [
 						{
-							"localRoot": "/workdrive/odoo_dev/odoo_simbioz_docker",
+							// Не забыть поменять путь к папке проекта
+							"localRoot": "<main_project_folder>",
 							"remoteRoot": "/home/odoo"
 						}
 					],
