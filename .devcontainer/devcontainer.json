@@ -47,14 +47,6 @@
 				"redhat.vscode-xml",
 				"formulahendry.auto-close-tag",
 				"formulahendry.auto-rename-tag",
-				"mstuttgart.odoo-snippets",
-				"scapigliato.vsc-odoo-development",
-				"jeffery9.odoo-snippets",
-				"jigar-patel.OdooSnippets",
-				"lgallo.odoo-snippets",
-				"scapigliato.odoo-snippets",
-				"odooSnippets14.odoo-snippets",
-				"Block-Cat.vsodoo",
 				"IBM.output-colorizer"
 			],
 			"settings": {

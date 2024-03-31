@@ -1,8 +1,6 @@
 {
-  // Указать имя проекта
-  "odooProjectName": "<project_name>",
-  // Указать путь к корневой папке проекта
-  "hostOdooRoot": "<main_project_folder>",
+  "odooProjectName": "${workspaceFolderBasename}",
+  "hostOdooRoot": "${workspaceFolder}",
   "[python]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": false,
