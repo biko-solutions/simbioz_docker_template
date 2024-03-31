@@ -28,7 +28,7 @@ services:
       - POSTGRES_USER=odoo
       - POSTGRES_DB=postgres
       - PGDATA=/var/lib/postgresql/data
-    container_name: ams_db
+    # container_name: ams_db
     # РАСКОММЕНТИРОВАТЬ, ЕСЛИ НУЖНО ПОДКЛЮЧИТЬСЯ К БД С ХОСТА, НАПРИМЕР, ЧЕРЕЗ PGADMIN
     # ports:
     #     - "5432:5432"
