@@ -6,9 +6,6 @@
       "type": "docker-build",
       "dockerBuild": {
         "dockerfile": "${config:hostOdooRoot}/docker/Dockerfile",
-        "buildArgs": {
-          "CONFIG_TYPE": "vscode"
-        },
         "context": "${config:hostOdooRoot}",
         "tag": "odoo:${config:odooProjectName}"
       }

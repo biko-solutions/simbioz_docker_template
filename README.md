@@ -4,6 +4,10 @@
 
 ```
 main_project_folder
+  ├── .vscode
+    ├── каталог с настройками рабочего пространства
+  ├── .devcontainer
+    ├── каталог с настройками dev-контейнера
   ├── simbioz_repo
     ├── каталоги репозитария сборки simbioz
   ├── client_addons
@@ -13,15 +17,42 @@ main_project_folder
   ├── varlib
     ├── каталог для filestore odoo и для хранения сессий. Очень важно проверить доступы к этому каталогу пользователю докера
   └── conf
-    ├── каталог с конфигурационными файлами odoo
-  projectname.code-workspace - файл настройки рабочего пространства
+    ├── каталог с конфигурационными файлами
 ```
 
 В каталог `simbioz_repo` нужно клонировать репозиторий именно сборки (AMS, CRMS и т.д).
+
+### Для AMS-проекта клонируем так:
+
+```bash
+cd main_project_folder/simbioz_repo
+git clone --recurse-submodules git@gitlab.simbioz.com.ua:simbioz_dev/oms.git .
+git submodule foreach -q --recursive 'branch="$(git config -f $toplevel/.gitmodules submodule.$name.branch)"; git checkout $branch'
+git submodule update --recursive --remote
+```
+
+### Для проекта CRMS клонируем так:
+
+```bash
+cd main_project_folder/simbioz_repo
+git clone --recurse-submodules git@gitlab.simbioz.com.ua:simbioz_dev/sbe.git .
+git submodule foreach -q --recursive 'branch="$(git config -f $toplevel/.gitmodules submodule.$name.branch)"; git checkout $branch'
+git submodule update --recursive --remote
+```
+
+### Для проекта GMS клонируем так:
+
+```bash
+cd main_project_folder/simbioz_repo
+git clone --recurse-submodules git@gitlab.simbioz.com.ua:simbioz_dev/gms.git .
+git submodule foreach -q --recursive 'branch="$(git config -f $toplevel/.gitmodules submodule.$name.branch)"; git checkout $branch'
+git submodule update --recursive --remote
+```
+
 Также в этот же каталог подключаются другие модули сборки, которые изначально не входили в поставку.
 _Подключение модулей к сборке - отдельная тема, которая не касается этого документа._
 
-В каталог client_addons клонируется репозитарий с модулями для конкретного клиента. В эту
+В каталог `client_addons` клонируется репозитарий с модулями для конкретного клиента. В эту
 папку можно склонировать несколько репозитариев и разложить их по подпапкам. <br/>
 
 Обязательно нужно убедиться, что каталог varlib доступен для записи пользователя, под которым все работает в докере. <br/>
@@ -33,15 +64,13 @@ _Подключение модулей к сборке - отдельная те
 
 Вся настройка рабочего пространства для проекта настроена именно на эту структуру каталогов. Если нужно поменять структуру - нужно будет исправить настройки рабочего пространства.
 
-Опсиание настройки рабочего пространства описано непосредственно в файле `odoo_simbioz_docker.code-workspace`. <br/>
-
 ## Порядок работы с репозитарием
 
 1. Склонировать репозитарий
 2. Удалить из него папку .git (т.е. просто отключить отслеживание изменений, т.к. мы будем клонировать другие репозитарии в папки и нам нет смысла что-то тут отслеживать)
-3. Открыть каталог в vscode
-4. Произвести настройку файлов (см. комментарии в самом файле)
-   * `.vscode/settings.json`
-   * `.vscode/launch.json`
-   * `.vscode/tasks.json`
-5. Провести настройку файла `conf/odoo-server.conf` (см. комментарии в самом файле)
+3. Открыть каталог в IDE
+4. Провести настройку путей к модулям odoo `conf/odoo-server.conf` (см. комментарии в самом файле)
+5. Для работы с vscode нужно дополнительно настроить файлы:
+   - `.vscode/settings.json`
+     - задать параметр `odooProjectName` - название проекта (без пробеллов и кириллицы!!)
+     - задать параметр `hostOdooRoot` - полный путь к папке проекта (например, `/home/user/projects/odoo/ams`)

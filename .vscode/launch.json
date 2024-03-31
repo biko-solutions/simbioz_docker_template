@@ -7,7 +7,7 @@
       "request": "launch",
       "program": "/workspaces/simbioz_repo/odoo-bin",
       "args": [
-        "--config=/workspaces/conf/odoo-server-vscode.conf",
+        "--config=/workspaces/conf/odoo-server.conf",
         // "--update=record_export_to_xml,l10n_ua_mis_reports,l10n_ua_mis_reports_xml",
         "--dev=xml",
       ],

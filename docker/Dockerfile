@@ -1,7 +1,7 @@
 FROM python:3.8.10-buster
 ARG DOCKER_ODOO_UID=1000  
 ARG DOCKER_ODOO_GID=1000
-ARG CONFIG_TYPE=pycharm
+# ARG CONFIG_TYPE=pycharm
 
 SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
 
@@ -83,13 +83,14 @@ RUN pip3 install --no-cache-dir -r /tmp/client_requirements.txt
 RUN groupadd --gid ${DOCKER_ODOO_GID} odoo && useradd odoo -u ${DOCKER_ODOO_UID} -g ${DOCKER_ODOO_GID} -m -s /bin/bash
 
 COPY docker/entrypoint.sh /
-COPY conf/odoo-server-${CONFIG_TYPE}.conf /etc/odoo/odoo-server.conf
+# COPY conf/odoo-server-${CONFIG_TYPE}.conf /etc/odoo/odoo-server.conf
+COPY conf/odoo-server.conf /etc/odoo/odoo-server.conf
 
 # Set permissions
-RUN mkdir -p /home/odoo/simbioz_repo \
-    && mkdir -p /home/odoo/client_addons \
-    && mkdir -p /home/odoo/conf \
-    && chown -v -R odoo /home/odoo
+RUN mkdir -p /workspaces/simbioz_repo \
+    && mkdir -p /workspaces/client_addons \
+    && mkdir -p /workspaces/conf \
+    && chown -v -R odoo /workspaces
 
 # Expose Odoo services
 EXPOSE 5678 8069 8071 8072
