@@ -2,54 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
+      // Задача для подготовки базы данных для отладки
+      "label": "prepare-debug-db",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "remove-odoo-container",
+        "debug-db"
+      ],
+      "problemMatcher": []
+    },
+    {
       // Задача для запуска отладки
-      "label": "debug-prod-db",
+      "label": "debug-db",
       "type": "docker-run",
       "dependsOn": [
-        "build-image"
-      ],
-      "dockerRun": {
-        "containerName": "odoo-${config:odooProjectName}",
-        "image": "odoo:${config:odooProjectName}",
-        "volumes": [
-          {
-            "containerPath": "/home/odoo",
-            // Не забыть поменять путь к папке проекта
-            "localPath": "<main_project_folder>"
-          },
-        ],
-        "ports": [
-          {
-            "containerPort": 8069,
-            "hostPort": 8069
-          },
-          {
-            "containerPort": 5678,
-            "hostPort": 5678
-          },
-          {
-            "containerPort": 8072,
-            "hostPort": 8072
-          },
-        ],
-        // Эта опция нужна для того, чтобы докер мог обращаться к хосту или к другим контейнерам
-        // Важно для работы с postgres, т.к. внутри контейнера нет postgres
-        // можно сделать отдельный контейнер для postgresql сервера или же использовать установку на хосте
-        "customOptions": "--add-host='host.docker.internal:host-gateway'"
-      },
-      "python": {
-        "file": "/home/odoo/simbioz_repo/odoo-bin",
-        "args": [
-          "--config=/home/odoo/conf/odoo-server.conf",
-        ],
-      },
-    },
-    {
-      // Задача для обновления base-модуля базы данных
-      "label": "update-prod-db",
-      "type": "docker-run",
-      "dependsOn": [
-        "build-image"
+        "start-pgsql",
+        "build-image",
       ],
       "dockerRun": {
         "containerName": "odoo-${config:odooProjectName}",
@@ -81,28 +49,45 @@
         "file": "/home/odoo/simbioz_repo/odoo-bin",
         "args": [
           "--config=/home/odoo/conf/odoo-server.conf",
-          "--update=base",
-          // указать название базы данных
-          "--database=<указать имя базы данных>",
-          "--stop-after-init",
+          // "--update=base",
+          // "--database=sim-mt-docker-prod",
+          // "--stop-after-init",
         ],
       },
     },
     {
-      // Задача для сборки образа
       "label": "build-image",
       "type": "docker-build",
       "dockerBuild": {
-        "dockerfile": "${config:hostOdooRoot}/docker/Dockerfile",
+        "dockerfile": "${config:hostOdooRoot}/docker_vscode/Dockerfile",
         "context": "${config:hostOdooRoot}",
         "tag": "odoo:${config:odooProjectName}"
       }
     },
     {
-      // Задача для очистки остановленных контейнеров
+      "label": "remove-odoo-container",
+      "type": "shell",
+      "command": "docker container rm -f odoo-${config:odooProjectName} || true",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
       "label": "clear-stopped-containers",
       "type": "shell",
       "command": "docker container prune -f"
     },
+    {
+      "label": "start-pgsql",
+      "type": "shell",
+      "command": "${workspaceFolder}/docker_vscode/start-pgsql.sh ${workspaceFolder}/docker_vscode ${config:hostPGPort}",
+      "problemMatcher": []
+    }
   ]
 }
