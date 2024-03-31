@@ -28,15 +28,15 @@ case "$1" in
     -- | odoo)
         shift
         if [[ "$1" == "scaffold" ]] ; then
-            exec python3 /home/odoo/simbioz_repo/odoo-bin "$@"
+            exec python3 /workspaces/simbioz_repo/odoo-bin "$@"
         else
             wait-for-psql.py ${DB_ARGS[@]} --timeout=30
-            exec python3 /home/odoo/simbioz_repo/odoo-bin "$@" "${DB_ARGS[@]}"
+            exec python3 /workspaces/simbioz_repo/odoo-bin "$@" "${DB_ARGS[@]}"
         fi
         ;;
     -*)
         wait-for-psql.py ${DB_ARGS[@]} --timeout=30
-        exec python3 /home/odoo/simbioz_repo/odoo-bin "$@" "${DB_ARGS[@]}"
+        exec python3 /workspaces/simbioz_repo/odoo-bin "$@" "${DB_ARGS[@]}"
         ;;
     *)
         exec "$@"
