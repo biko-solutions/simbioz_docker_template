@@ -21,14 +21,13 @@ services:
     cap_add:
       - SYS_PTRACE
   db:
-    image: postgres:14
+    image: postgres:12.18
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
       - POSTGRES_DB=postgres
       - PGDATA=/var/lib/postgresql/data
-    # container_name: ams_db
     # РАСКОММЕНТИРОВАТЬ, ЕСЛИ НУЖНО ПОДКЛЮЧИТЬСЯ К БД С ХОСТА, НАПРИМЕР, ЧЕРЕЗ PGADMIN
     # ports:
     #     - "5432:5432"
