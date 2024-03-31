@@ -4,15 +4,11 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
-    # УКАЗАТЬ ИМЯ ПРОЕКТА ВМЕСТО <project_name>
-    image: odoo:<project_name>
     restart: unless-stopped
     environment:
       - PGHOST=db
       - PGUSER=odoo
       - PGPASSWORD=odoo
-    # УКАЗАТЬ ИМЯ ПРОЕКТА ВМЕСТО <project_name>
-    container_name: odoo-<project_name>
     depends_on:
       - db
     ports:
