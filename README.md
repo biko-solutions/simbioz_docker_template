@@ -70,7 +70,9 @@ _Подключение модулей к сборке - отдельная те
 2. Создайте папку этого проекта и перейдите в нее (например, `mkdir muztorg && cd muztorg`)
 3. Склонировать репозитарий в папку проекта
 
-   `git clone git@github.com:biko-solutions/simbioz_docker_template.git .`
+   ```bash
+   git clone git@github.com:biko-solutions/simbioz_docker_template.git .
+   ```
 
 4. Удалить из него папку .git (т.е. просто отключить отслеживание изменений, т.к. мы будем клонировать другие репозитарии в папки и нам нет смысла что-то тут отслеживать)
 5. Из папок simbioz_repo и client_addons удалить файл README.md (он нужен только для описания содержимого папки)
