@@ -2,20 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug DB",
-      "type": "docker",
+      "name": "Python: DEV database",
+      "type": "debugpy",
       "request": "launch",
-      "preLaunchTask": "prepare-debug-db",
-      "postDebugTask": "clear-stopped-containers",
-      "python": {
-        "pathMappings": [
-          {
-            // Не забыть поменять путь к папке проекта
-            "localRoot": "<main_project_folder>",
-            "remoteRoot": "/home/odoo"
-          }
-        ],
+      "program": "/workspaces/simbioz_repo/odoo-bin",
+      "args": [
+        "--config=/workspaces/conf/odoo-server-vscode.conf",
+        // "--update=record_export_to_xml,l10n_ua_mis_reports,l10n_ua_mis_reports_xml",
+        "--dev=xml",
+      ],
+      "cwd": "/workspaces/simbioz_repo",
+      "env": {
+        "PYTHONUNBUFFERED": "1"
       },
+      "console": "integratedTerminal",
     },
   ],
 }

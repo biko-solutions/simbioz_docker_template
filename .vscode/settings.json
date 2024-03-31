@@ -1,9 +1,8 @@
 {
-  // Тут указываем название проекта. Это имя будет использоваться для формирования образа докера
-  "odooProjectName": "mt_docker",
-  // Не забываем тут поменять путь к папке проекта
+  // Указать имя проекта
+  "odooProjectName": "<project_name>",
+  // Указать путь к корневой папке проекта
   "hostOdooRoot": "<main_project_folder>",
-  "hostPGPort": 5432,
   "[python]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": false,
@@ -14,52 +13,24 @@
   },
   "python.languageServer": "Pylance",
   "python.analysis.userFileIndexingLimit": -1,
-  // Тут указываем все папки, где есть модули odoo
-  // указан пример. нужно заменить на свои каталоги и модули
+  // set your project's directories here
   "python.analysis.extraPaths": [
-    "<main_project_folder>/simbioz_repo",
-    "<main_project_folder>/simbioz_repo/odoo",
-    "<main_project_folder>/simbioz_repo/odoo/addons",
-    "<main_project_folder>/simbioz_repo/extra_addons/acc_addons",
-    "<main_project_folder>/simbioz_repo/extra_addons/core_addons",
-    "<main_project_folder>/simbioz_repo/extra_addons/demo_addons",
-    "<main_project_folder>/client_addons",
+    "/workspaces/simbioz_repo",
+    "/workspaces/client_addons",
   ],
   "black-formatter.args": [
     "--line-length",
     "88"
   ],
-  // тут указываем путь к файлу конфигурации flake8
-  // для клиентских проектов у нас в каждом проекте есть свой файл конфигурации
-  // для разработки под сборку simbioz используется файл конфигурации flake8 в соответствующем сабмодуле
+  // Эти настройки почему-то не переопределяются для dev-container. Поэтому ставим их тут
   "flake8.args": [
-    "--config=<main_project_folder>/client_addons/.flake8"
+    "--config=/workspaces/simbioz_repo/extra_addons/core_addons/.flake8"
   ],
-  // тут указываем путь к файлу конфигурации flake8
-  // для клиентских проектов у нас в каждом проекте есть свой файл конфигурации
-  // для разработки под сборку simbioz используется файл конфигурации flake8 в соответствующем сабмодуле
   "pylint.args": [
-    "--rcfile=<main_project_folder>/client_addons/.pylintrc",
+    "--rcfile=/workspaces/simbioz_repo/extra_addons/core_addons/.pylintrc",
     "--load-plugins=pylint_odoo"
   ],
   "pylint.ignorePatterns": [
     "**/**/__manifest__.py"
-  ],
-  "prettier.enableDebugLogs": true,
-  // Далее идут настройки prettier
-  // Его можно использовать встроенный в VSCode, но он не поддерживает нормальную работу с плагином prettier-xml
-  // Сам плагин устанавливается относительно просто, но требуется понимание работы npm и nodejs
-  // Вот тут описание как его установить https://bikosolutions.notion.site/prettier-xml-VSCode-2d81233d89cb48baa61ef1338a1406fa?pvs=4
-  // Вот эта настройка - без использования плагина prettier-xml
-  // "prettier.configPath": "<main_project_folder>/client_addons/.prettierrc.yml",
-  // ========== PRETTIER XML-PLUGIN SETTING =================
-  // Вот эти настройки для работы с плагином prettier-xml
-  // Настройки есть в файле .prettierrc.yml в папке conf
-  // uncomment this section if you can install @prettier/plugin-xml
-  "prettier.configPath": "<main_project_folder>/conf/.prettierrc.yml",
-  "prettier.prettierPath": "/usr/local/lib/node_modules/prettier",
-  "prettier.resolveGlobalModules": true,
-  "prettier.documentSelectors": [
-    "**/*.xml"
   ],
 }

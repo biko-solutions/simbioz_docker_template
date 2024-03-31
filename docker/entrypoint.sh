@@ -39,7 +39,7 @@ case "$1" in
         exec python3 /home/odoo/simbioz_repo/odoo-bin "$@" "${DB_ARGS[@]}"
         ;;
     *)
-        exec python3 /home/odoo/simbioz_repo/odoo-bin "${DB_ARGS[@]}"
+        exec "$@"
 esac
 
 exit 1

@@ -8,8 +8,7 @@
 # Все эти файлы из подкаталогов нужно добавить в .dockerignore
 !client_addons/extra_requirements.txt
 !client_addons/requirements.txt
-!docker_vscode/
-!docker_pycharm/
+!docker/
 
 # Не игнорировать каталог conf и его содержимое
 !conf/

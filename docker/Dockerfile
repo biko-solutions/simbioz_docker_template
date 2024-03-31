@@ -1,6 +1,7 @@
 FROM python:3.8.10-buster
 ARG DOCKER_ODOO_UID=1000  
 ARG DOCKER_ODOO_GID=1000
+ARG CONFIG_TYPE=pycharm
 
 SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
 
@@ -8,6 +9,7 @@ ENV LANG C.UTF-8
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        git \
         libxml2-dev \
         libxslt1-dev \
         libldap2-dev \
@@ -64,9 +66,7 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" >
 
 RUN npm install @odoo/owl@1.4.0 -y
 
-ENV VIRTUAL_ENV=/home/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN npm install --global --save-dev prettier @prettier/plugin-xml
 
 RUN python3 -m pip install --no-cache-dir setuptools wheel
 RUN python3 -m pip install --no-cache-dir debugpy pre-commit
@@ -82,8 +82,8 @@ RUN pip3 install --no-cache-dir -r /tmp/client_requirements.txt
 
 RUN groupadd --gid ${DOCKER_ODOO_GID} odoo && useradd odoo -u ${DOCKER_ODOO_UID} -g ${DOCKER_ODOO_GID} -m -s /bin/bash
 
-COPY docker_pycharm/entrypoint.sh /
-COPY conf/odoo-server.conf /etc/odoo/
+COPY docker/entrypoint.sh /
+COPY conf/odoo-server-${CONFIG_TYPE}.conf /etc/odoo/odoo-server.conf
 
 # Set permissions
 RUN mkdir -p /home/odoo/simbioz_repo \
@@ -94,9 +94,9 @@ RUN mkdir -p /home/odoo/simbioz_repo \
 # Expose Odoo services
 EXPOSE 5678 8069 8071 8072
 
-ENV ODOO_RC /etc/odoo/odoo.conf
+ENV ODOO_RC /etc/odoo/odoo-server.conf
 
-COPY docker_pycharm/wait-for-psql.py /usr/local/bin/wait-for-psql.py
+COPY docker/wait-for-psql.py /usr/local/bin/wait-for-psql.py
 RUN chmod +x /usr/local/bin/wait-for-psql.py
 RUN chown odoo /usr/local/bin/wait-for-psql.py
 
