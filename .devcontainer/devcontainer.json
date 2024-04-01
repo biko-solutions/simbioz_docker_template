@@ -47,7 +47,8 @@
 				"redhat.vscode-xml",
 				"formulahendry.auto-close-tag",
 				"formulahendry.auto-rename-tag",
-				"IBM.output-colorizer"
+				"IBM.output-colorizer",
+				"mrorz.language-gettext"
 			],
 			"settings": {
 				"python.defaultInterpreterPath": "/usr/local/bin/python",
@@ -59,7 +60,9 @@
 				]
 			}
 		}
-	}
+	},
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "devcontainer"
+	"initializeCommand": "docker/docker_set_project.sh && docker pull bikosolutions/developers_repo:latest",
+	"waitFor": "initializeCommand"
 }
