@@ -1,0 +1,8 @@
+{
+  "customVariables": ["moduleName=>____"],
+  "omitParentDirectory": true,
+  "openFilesWhenDone": [
+    "[FTName % snakecase]/__manifest__.py",
+    "[FTName % snakecase]/README.rst"
+  ]
+}

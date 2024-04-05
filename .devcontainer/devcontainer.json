@@ -48,7 +48,8 @@
 				"formulahendry.auto-close-tag",
 				"formulahendry.auto-rename-tag",
 				"IBM.output-colorizer",
-				"mrorz.language-gettext"
+				"mrorz.language-gettext",
+				"Huuums.vscode-fast-folder-structure"
 			],
 			"settings": {
 				"python.defaultInterpreterPath": "/usr/local/bin/python",
