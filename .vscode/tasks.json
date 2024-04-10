@@ -10,5 +10,13 @@
         "tag": "odoo:${config:odooProjectName}"
       }
     },
+    {
+      "label": "Update SIMBIOZ repo",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/update_simbioz_repo.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/simbioz_repo"
+      }
+    }
   ]
 }
