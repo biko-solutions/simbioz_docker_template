@@ -54,9 +54,6 @@ _Подключение модулей к сборке - отдельная те
 6. Открыть каталог в IDE
 7. Провести настройку путей к модулям odoo `conf/odoo-server.conf` (см. комментарии в самом файле)
 
-> [!WARNING]
-> УСТАРЕЛО 02/04/2024: ~~9. В файле `.env` указать имя проекта (текущую папку) - это очень важная настройка. Она позволит изолировать контейнеры друг от друга и не дать им использовать одни и те же файлы, тома и т.д.~~
-
 ### Для работы в VSCode
 
 1. Работа в VSCode подразумевает использование расширения Dev Containers. Перед началом работы убедитесь, что установлено расширение [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
@@ -87,7 +84,6 @@ _Подключение модулей к сборке - отдельная те
 cd main_project_folder/simbioz_repo
 git clone --recurse-submodules git@gitlab.simbioz.com.ua:simbioz_dev/oms.git .
 git submodule foreach -q --recursive 'branch="$(git config -f $toplevel/.gitmodules submodule.$name.branch)"; git checkout $branch'
-git submodule update --recursive --remote
 ```
 
 #### Для проекта CRMS клонируем так:
@@ -96,7 +92,6 @@ git submodule update --recursive --remote
 cd main_project_folder/simbioz_repo
 git clone --recurse-submodules git@gitlab.simbioz.com.ua:simbioz_dev/sbe.git .
 git submodule foreach -q --recursive 'branch="$(git config -f $toplevel/.gitmodules submodule.$name.branch)"; git checkout $branch'
-git submodule update --recursive --remote
 ```
 
 #### Для проекта GMS клонируем так:
@@ -105,5 +100,4 @@ git submodule update --recursive --remote
 cd main_project_folder/simbioz_repo
 git clone --recurse-submodules git@gitlab.simbioz.com.ua:simbioz_dev/gms.git .
 git submodule foreach -q --recursive 'branch="$(git config -f $toplevel/.gitmodules submodule.$name.branch)"; git checkout $branch'
-git submodule update --recursive --remote
 ```
