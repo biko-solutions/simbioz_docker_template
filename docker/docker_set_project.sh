@@ -8,7 +8,7 @@ ENV_FILE=".env"
 # Проверяем, существует ли файл .env
 if [ ! -f "$ENV_FILE" ]; then
     # Если файла нет, создаем его и записываем значение COMPOSE_PROJECT_NAME
-    echo "COMPOSE_PROJECT_NAME=$CURRENT_DIR" > "$ENV_FILE"
+    echo "COMPOSE_PROJECT_NAME=$CURRENT_DIR" >"$ENV_FILE"
 else
     # Проверяем, задано ли значение для COMPOSE_PROJECT_NAME и корректно ли оно
     if ! awk -F= '/^COMPOSE_PROJECT_NAME=/{exit !($2)}' "$ENV_FILE"; then
@@ -18,7 +18,12 @@ else
             sed -i'' -e "/^COMPOSE_PROJECT_NAME=/c\COMPOSE_PROJECT_NAME=$CURRENT_DIR" "$ENV_FILE"
         else
             # Ключ не найден, добавляем его в конец файла
-            echo "COMPOSE_PROJECT_NAME=$CURRENT_DIR" >> "$ENV_FILE"
+            echo "COMPOSE_PROJECT_NAME=$CURRENT_DIR" >>"$ENV_FILE"
         fi
     fi
+fi
+
+# Создаем папку .vscode-server, для сохранения расширений и настроек VS Code
+if [ ! -d ".vscode-server" ]; then
+    mkdir .vscode-server
 fi
