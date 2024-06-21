@@ -27,3 +27,8 @@ fi
 if [ ! -d ".vscode-server" ]; then
     mkdir .vscode-server
 fi
+
+if [ ! -d "$HOME/.ssh" ]; then
+    echo "Creating folder ~/.ssh"
+    mkdir -p "$HOME/.ssh"
+fi
