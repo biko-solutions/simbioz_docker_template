@@ -9,7 +9,13 @@ trailingComma: "es5"
 xmlWhitespaceSensitivity: "ignore"
 plugins:
     - "/usr/local/lib/node_modules/@prettier/plugin-xml/src/plugin.js"
+    - "/usr/local/lib/node_modules/prettier-plugin-sql/lib/index.cjs"
 overrides:
     - files: "*.xml"
       options:
           parser: "xml"
+    - files: "*.sql"
+      options:
+          parser: "sql"
+          language: "postgresql"
+          keywordCase: "upper"
