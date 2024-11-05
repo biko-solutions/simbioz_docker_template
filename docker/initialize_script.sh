@@ -32,3 +32,5 @@ if [ ! -d "$HOME/.ssh" ]; then
     echo "Creating folder ~/.ssh"
     mkdir -p "$HOME/.ssh"
 fi
+
+docker pull bikosolutions/developers_repo:latest
