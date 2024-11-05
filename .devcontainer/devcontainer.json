@@ -64,7 +64,7 @@
 	},
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "devcontainer"
-	"initializeCommand": "docker/initialize_script.sh",
+	"initializeCommand": "docker/scripts/initialize_script.sh",
 	"waitFor": "initializeCommand",
-	"postCreateCommand": "docker/post_create_script.sh"
+	"postCreateCommand": "docker/scripts/post_create_script.sh"
 }
