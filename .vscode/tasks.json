@@ -2,21 +2,56 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build-image",
-      "type": "docker-build",
-      "dockerBuild": {
-        "dockerfile": "${config:hostOdooRoot}/docker/Dockerfile",
-        "context": "${config:hostOdooRoot}",
-        "tag": "odoo:${config:odooProjectName}"
-      }
-    },
-    {
-      "label": "Update SIMBIOZ repo",
+      "label": "Update SIMBIOZ addons and Database",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/update_simbioz_repo.sh",
       "options": {
         "cwd": "${workspaceFolder}/simbioz_repo"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": true
       }
+    },
+    {
+      "label": "Update Database only",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/update_database.sh",
+      "options": {
+        "cwd": "${workspaceFolder}/simbioz_repo"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "Run Tests for Addons",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/run_tests.sh",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/simbioz_repo",
+      },
     }
   ]
 }
