@@ -1,6 +1,9 @@
 {
   "odooProjectName": "${workspaceFolderBasename}",
   "hostOdooRoot": "${workspaceFolder}",
+  "[sql]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
   "[python]": {
     "editor.formatOnSave": true,
     "editor.formatOnType": false,
