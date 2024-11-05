@@ -50,6 +50,8 @@
 				"IBM.output-colorizer",
 				"mrorz.language-gettext",
 				"Huuums.vscode-fast-folder-structure",
+				"mtxr.sqltools",
+				"mtxr.sqltools-driver-pg",
 				"trinhanhngoc.vscode-odoo"
 			],
 			"settings": {
