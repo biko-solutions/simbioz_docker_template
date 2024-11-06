@@ -42,11 +42,15 @@ if [ $result -ne 0 ]; then
   exit $result
 fi
 
+echo -e "${GREEN}==================${NC}"
 echo -e "${GREEN}=== LET'S TEST ===${NC}"
 
 unbuffer python3 odoo-bin --config=/workspaces/conf/odoo-server.conf \
   --database=${DBNAME} --init=${MODULES} \
   --test-enable \
   --stop-after-init --log-level=info 2>&1 | grep -Ei "odoo.*tests|ERROR"
+
+echo -e "${GREEN}=== TESTING COMPLETED ===${NC}"
+echo -e "${GREEN}=========================${NC}"
 
 drop_database
