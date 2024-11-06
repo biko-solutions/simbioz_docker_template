@@ -27,6 +27,10 @@ if [[ -z "${MODULES}" ]]; then
   exit 1
 fi
 
+echo -e "${BLUE}=== INITIAL DATA ===${NC}"
+echo -e "${BLUE}Database name: ${DBNAME}${NC}"
+echo -e "${BLUE}Modules: ${MODULES}${NC}"
+
 drop_database
 
 echo -e "${GREEN}=== INITIALIZING DATABASE ===${NC}"
