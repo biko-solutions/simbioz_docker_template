@@ -37,6 +37,10 @@
       "label": "Run Tests for Addons",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/run_tests.sh",
+      "args": [
+        "${input:dropDatabase}",
+        "tests",
+      ],
       "group": {
         "kind": "test",
         "isDefault": true
@@ -50,8 +54,38 @@
         "clear": true
       },
       "options": {
-        "cwd": "${workspaceFolder}/simbioz_repo",
+        "cwd": "${workspaceFolder}/simbioz_repo"
       },
+      // "problemMatcher": [
+      //   {
+      //     "owner": "python",
+      //     "fileLocation": [
+      //       "relative",
+      //       "${workspaceFolder}"
+      //     ],
+      //     "pattern": [
+      //       {
+      //         "regexp": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},(\\d+) \\d+ (ERROR) \\S+ ([^:]+): (.*)$",
+      //         "line": 1,
+      //         "severity": 2,
+      //         "file": 3,
+      //         "message": 4
+      //       }
+      //     ]
+      //   }
+      // ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "dropDatabase",
+      "type": "pickString",
+      "description": "Drop database before runnig tests",
+      "options": [
+        "yes",
+        "no",
+      ],
+      "default": "yes"
     }
   ]
 }
