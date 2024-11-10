@@ -14,12 +14,23 @@ services:
     ports:
       - '8069:8069'
       - '8072:8072'
-      - '5678:5678'
     volumes:
       - ../:/workspaces
       - ../conf/odoo-server.conf:/etc/odoo/odoo-server.conf
     cap_add:
       - SYS_PTRACE
+  pgadmin4:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - '8070:80'
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@testlocal.net
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - odoo-pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db
   db:
     image: postgres:12.18
     restart: unless-stopped
