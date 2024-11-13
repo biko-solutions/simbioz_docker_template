@@ -54,3 +54,4 @@ services:
 
 volumes:
   odoo-pg-data:
+  odoo-pgadmin-data:
