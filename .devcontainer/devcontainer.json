@@ -46,7 +46,7 @@
 			}
 		}
 	},
-	"initializeCommand": "docker/scripts/initialize_script.sh",
+	"initializeCommand": "bash docker/scripts/initialize_script.sh",
 	"waitFor": "initializeCommand",
 	"postCreateCommand": "docker/scripts/post_create_script.sh"
 }
