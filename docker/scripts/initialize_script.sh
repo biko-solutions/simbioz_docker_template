@@ -33,4 +33,8 @@ if [ ! -d "$HOME/.ssh" ]; then
     mkdir -p "$HOME/.ssh"
 fi
 
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    touch /tmp/ssh-fake-agent
+fi
+
 docker pull bikosolutions/developers_repo:latest

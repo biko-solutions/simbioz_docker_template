@@ -16,6 +16,9 @@ services:
       - ..:/workspaces:cached
       - ../.vscode-server:/home/odoo/.vscode-server
       - ${HOME}/.ssh:/home/odoo/.ssh:ro
+      - ${SSH_AUTH_SOCK:-/tmp/ssh-fake-agent}:/ssh-agent
+    environment:
+      - SSH_AUTH_SOCK=/ssh-agent
 
     # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
     # cap_add:
