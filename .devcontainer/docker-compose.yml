@@ -15,6 +15,8 @@ services:
       # Update this to wherever you want VS Code to mount the folder of your project
       - ..:/workspaces:cached
       - ../.vscode-server:/home/odoo/.vscode-server
+      - ../.windsurf-server:/home/odoo/.windsurf-server
+      - ../.vscode-server-insiders:/home/odoo/.vscode-server-insiders
       - ${HOME}/.ssh:/home/odoo/.ssh:ro
       - ${SSH_AUTH_SOCK:-/tmp/ssh-fake-agent}:/ssh-agent
     environment:

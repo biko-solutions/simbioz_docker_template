@@ -28,6 +28,14 @@ if [ ! -d ".vscode-server" ]; then
     mkdir .vscode-server
 fi
 
+if [ ! -d ".vscode-server-insiders" ]; then
+    mkdir .vscode-server-insiders
+fi
+
+if [ ! -d ".windsurf-server" ]; then
+    mkdir .windsurf-server
+fi
+
 if [ ! -d "$HOME/.ssh" ]; then
     echo "Creating folder ~/.ssh"
     mkdir -p "$HOME/.ssh"
