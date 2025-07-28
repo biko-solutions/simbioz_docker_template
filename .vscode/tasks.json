@@ -34,13 +34,53 @@
       }
     },
     {
+      "label": "Backup Database",
+      "type": "shell",
+      "command": "sh",
+      "args": [
+        "-c",
+        "click-odoo-backupdb -c config_local/odoo-server.conf ${input:databaseName} ${workspaceFolder}/db_backup/prod_$(date +'%d_%m_%Y_%H_%M').zip"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "label": "Restore Database",
+      "type": "shell",
+      "command": "click-odoo-restoredb",
+      "args": [
+        "-c",
+        "config_local/odoo-server.conf",
+        "--force",
+        "${input:databaseName}",
+        "${input:databaseBackup}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
       "label": "Run Tests for Addons",
       "type": "shell",
       "command": "${workspaceFolder}/scripts/run_tests.sh",
-      "args": [
-        "${input:dropDatabase}",
-        "tests",
-      ],
+      "args": ["${input:dropDatabase}", "tests"],
       "group": {
         "kind": "test",
         "isDefault": true
@@ -55,25 +95,7 @@
       },
       "options": {
         "cwd": "${workspaceFolder}/simbioz_repo"
-      },
-      // "problemMatcher": [
-      //   {
-      //     "owner": "python",
-      //     "fileLocation": [
-      //       "relative",
-      //       "${workspaceFolder}"
-      //     ],
-      //     "pattern": [
-      //       {
-      //         "regexp": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},(\\d+) \\d+ (ERROR) \\S+ ([^:]+): (.*)$",
-      //         "line": 1,
-      //         "severity": 2,
-      //         "file": 3,
-      //         "message": 4
-      //       }
-      //     ]
-      //   }
-      // ]
+      }
     }
   ],
   "inputs": [
@@ -81,11 +103,20 @@
       "id": "dropDatabase",
       "type": "pickString",
       "description": "Drop database before runnig tests",
-      "options": [
-        "yes",
-        "no",
-      ],
+      "options": ["yes", "no"],
       "default": "yes"
+    },
+    {
+      "id": "databaseName",
+      "type": "promptString",
+      "description": "Database Name",
+      "default": "prod"
+    },
+    {
+      "id": "databaseBackup",
+      "type": "promptString",
+      "description": "Backup file",
+      "default": ""
     }
   ]
 }
